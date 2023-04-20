@@ -118,7 +118,7 @@ li div {
     align-items: flex-start;
 }
 
-li div span {
+li div p {
     margin-top: 20px;
 
 }
@@ -173,6 +173,11 @@ li div img {
         margin-left: 0px;
         align-items: center;
     }
+
+    li div p {
+        margin: 0px 40px;
+    }
+
 }
 
 /* max-width  */
@@ -205,5 +210,9 @@ li div img {
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+
+    li div p {
+        margin: 0px 40px;
     }
 }
