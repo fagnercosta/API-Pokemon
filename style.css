@@ -27,13 +27,16 @@
 }
 .type-ground {
     color: #000000;
-    background-image: linear-gradient(180deg, #f7de3f 50%, #ab9842 50%)
+    background-image: linear-gradient(180deg, #f7de3f 50%, #ab9842 50%);
 }
 .type-rock {
     color: #FFFFFF;
     background-color: #a38c21;
 }
-
+.type-flying {
+    color: #000000;
+    background-image: linear-gradient(180deg, #3dc7ef 50%, #bdb9b8 50%);
+}
 
 body {
     font-family: 'Poppins', sans-serif;
@@ -129,7 +132,7 @@ li {
 }
 
  li .content-1 {
-    min-width: 100%;
+    min-width: 90%;
     text-align: left;
     display: flex;
     flex-direction: row;
@@ -138,6 +141,7 @@ li {
 
  li .content-1 p {
     margin-top: 20px;
+    margin-left: 20px;
 }
 
 li > h2 {
@@ -156,6 +160,75 @@ li > h2 {
     height: 300px;
     margin-bottom: 20px;
     margin-left: 10px;
+}
+
+.details-1 {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 90%;
+    min-width: 90%;
+    background-color: #6b6b6b50;
+    border-radius: 25px;
+    margin: 14px 0px;
+    padding: 12px 0px;
+}
+
+.details-1 > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    padding: 10px 0px;
+}
+
+.details-1 > div > p {
+    font-size: large;
+    font-weight: 700;
+}
+
+.details-2 {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    gap: 20px;
+}
+
+.details-2 > div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.details-2 > div > p {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.details-2 > div > div {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.details-2 div span {
+    text-align: center;
+    font-weight: 400;
+    padding: 4px 22px;
+    border-radius: 6px;
+    width: 100px;
+    height: 36px;
+    cursor: pointer;
+    transition: 200ms;
+    border: 1px solid gray;
+}
+
+.details-2 div span:hover {
+    transform: scale(1.14);
 }
 
 @media screen and (min-width: 600px) and (max-width: 1100px) {
@@ -296,6 +369,7 @@ li > h2 {
         height: 36px;
         cursor: pointer;
         transition: 200ms;
+        border: 1px solid gray;
     }
 
     .details-2 div span:hover {
