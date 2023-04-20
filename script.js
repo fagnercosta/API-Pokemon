@@ -1,19 +1,30 @@
 
-let listElement = document.querySelector("ul");
+const listElement = document.querySelector("ul");
 const inputPokemon = document.querySelector("#inputPokemon");
-const URL_API = 'https://pokeapi.co/api/v2/pokemon';
+const URL_API = 'https://pokeapi.co/api/v2/pokemon/';
+const URL_API_SPECIES = 'https://pokeapi.co/api/v2/pokemon-species/';
 let URL_IMAGE = '';
 
-function find(id) {
-    fetch(`${URL_API}/${id}`)
+async function find(id) {
+    await fetch(`${URL_API}${id}`)
         .then(response => response.json())
-        .then((data) => loadPokemon(data))
+        .then((data) => loadPokemon(data, id))
         .catch((error) => { console.log(error) });
 }
 
-function loadPokemon(data) {
+async function loadPokemon(data, id) {
 
-    const { forms, sprites } = data;
+    const dataSpecies = await fetch(`${URL_API_SPECIES}${id}`)
+        .then(response => response.json())
+        .catch((error) => { console.log(error) });
+
+    const { abilities, height, forms, sprites, weight, types } = data;
+    const { flavor_text_entries, genera } = dataSpecies;
+
+    const ability = abilities["0"].ability.name;
+    const description = flavor_text_entries.find(element => (element.version.name === "red" && element.language.name === "en")).flavor_text;
+    const category = genera.find(element => element.language.name === "en").genus.replace('Pokémon', '');
+    const URL_API_TYPES = types["0"].type.url;
 
     for (const index in forms) {
         const item = forms[index];
@@ -26,7 +37,7 @@ function loadPokemon(data) {
             const textH2 = document.createTextNode(item.name.toUpperCase());
             const textSpan = document.createTextNode("Biografia");
             const img = document.createElement("img");
-            
+
             img.setAttribute("src", sprites.other.dream_world.front_default);
             h2.appendChild(textH2);
             span.appendChild(textSpan);
