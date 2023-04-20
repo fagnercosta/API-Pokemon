@@ -13,28 +13,26 @@ async function find(id) {
 
 async function loadPokemon(data, id) {
 
-    const data_species = await fetch(`${URL_API_SPECIES}${id}`)
-        .then(response => response.json())
-        .catch((error) => console.log(error));
+    const response = await fetch(`${URL_API_SPECIES}${id}`);
+    const data_species = await response.json();
 
     const { abilities, height, forms, sprites, weight, types } = data;
     const { flavor_text_entries, genera } = data_species;
 
     const description = flavor_text_entries.find(entry => entry.language.name === 'en').flavor_text;;
     const category = genera.find(element => element.language.name === "en").genus.replace('Pokémon', '');
+
     const URL_API_TYPES = types["0"].type.url;
     const ability = abilities["0"].ability.name;
 
-    const data_types = await fetch(`${URL_API_TYPES}`)
-        .then(response => response.json())
-        .catch((error) => console.log(error));
+    const responseTypes = await fetch(`${URL_API_TYPES}`);
+    const data_types = await responseTypes.json();
 
     const currentType = data_types.name;
     const weaknessesType = data_types.damage_relations.double_damage_from;
 
     for (const index in forms) {
         const item = forms[index];
-
         if (index == 0) {
             const liElement = document.createElement("li");
             const h2 = document.createElement("h2");
@@ -42,8 +40,7 @@ async function loadPokemon(data, id) {
 
             h2.appendChild(textH2);
             liElement.appendChild(h2);
-            liElement.appendChild(createContentDiv(sprites.other.dream_world.front_default, description, { height, category, weight, ability }))
-            liElement.appendChild(createDivPokemonTypes(currentType, weaknessesType))
+            liElement.appendChild(createContentDiv(sprites.other.dream_world.front_default, description, { height, category, weight, ability }, currentType, weaknessesType))
             listElement.appendChild(liElement);
         }
     }
@@ -60,21 +57,30 @@ function search(event) {
     find(inputValue);
 }
 
-function createContentDiv(sprite, description, status) {
+function createContentDiv(sprite, description, status, type, weaknesses) {
 
     const contentDiv = document.createElement('div');
-    contentDiv.setAttribute('id', 'content-1');
+    const responseDiv = document.createElement('div');
+    const spriteDiv = document.createElement('div');
+
     contentDiv.setAttribute('class', 'content-1');
+    responseDiv.setAttribute('class', 'content-2');
+    spriteDiv.setAttribute('class', 'sprite');
 
     const img = document.createElement('img');
     img.setAttribute('src', sprite);
-    contentDiv.appendChild(img);
+    spriteDiv.appendChild(img);
 
     const p = document.createElement('p');
     p.textContent = description.replace(/\n/g, '');
-    contentDiv.appendChild(p);
+    
+    contentDiv.appendChild(spriteDiv);
 
-    contentDiv.appendChild(createDivPokemonStatus(status));
+    responseDiv.appendChild(p);
+    responseDiv.appendChild(createDivPokemonStatus(status));
+    responseDiv.appendChild(createDivPokemonTypes(type, weaknesses));
+
+    contentDiv.appendChild(responseDiv);
 
     return contentDiv;
 }
